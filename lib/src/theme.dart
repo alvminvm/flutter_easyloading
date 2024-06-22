@@ -125,6 +125,8 @@ class EasyLoadingTheme {
               ? AlignmentDirectional.topCenter
               : AlignmentDirectional.center);
 
+  static AlignmentGeometry get indicatorAlign => EasyLoading.instance.indicatorAlign ?? AlignmentDirectional.center;
+
   /// display duration
   static Duration get displayDuration => EasyLoading.instance.displayDuration;
 

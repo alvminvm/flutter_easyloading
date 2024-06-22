@@ -115,6 +115,8 @@ class EasyLoading {
   /// toast position, default [EasyLoadingToastPosition.center].
   late EasyLoadingToastPosition toastPosition;
 
+  AlignmentGeometry? indicatorAlign;
+
   /// loading animationStyle, default [EasyLoadingAnimationStyle.opacity].
   late EasyLoadingAnimationStyle animationStyle;
 
@@ -183,6 +185,9 @@ class EasyLoading {
 
   /// success widget of loading
   Widget? successWidget;
+
+  /// success widget builder of loading
+  Widget? Function(String? status)? successWidgetBuilder;
 
   /// error widget of loading
   Widget? errorWidget;
@@ -303,17 +308,23 @@ class EasyLoading {
 
   /// showSuccess [status] [duration] [maskType]
   static Future<void> showSuccess(
-    String status, {
+    String? status, {
     Duration? duration,
     EasyLoadingMaskType? maskType,
     bool? dismissOnTap,
   }) {
-    Widget w = _instance.successWidget ??
+    Widget w = _instance.successWidgetBuilder?.call(status) ??
+        _instance.successWidget ??
         Icon(
           Icons.done,
           color: EasyLoadingTheme.indicatorColor,
           size: EasyLoadingTheme.indicatorSize,
         );
+
+    if (_instance.successWidgetBuilder != null) {
+      status = null;
+    }
+
     return _instance._show(
       status: status,
       duration: duration ?? EasyLoadingTheme.displayDuration,
@@ -456,7 +467,7 @@ class EasyLoading {
       );
     }
 
-    toastPosition ??= EasyLoadingToastPosition.center;
+    toastPosition ??= EasyLoadingTheme.toastPosition;
     bool animation = _w == null;
     _progressKey = null;
     if (_key != null) await dismiss(animation: false);
