@@ -115,8 +115,6 @@ class EasyLoading {
   /// toast position, default [EasyLoadingToastPosition.center].
   late EasyLoadingToastPosition toastPosition;
 
-  AlignmentGeometry? indicatorAlign;
-
   /// loading animationStyle, default [EasyLoadingAnimationStyle.opacity].
   late EasyLoadingAnimationStyle animationStyle;
 
@@ -131,6 +129,9 @@ class EasyLoading {
 
   /// size of indicator, default 40.0.
   late double indicatorSize;
+
+  /// align of indicator, default [Alignment.center]
+  AlignmentGeometry? indicatorAlign;
 
   /// radius of loading, default 5.0.
   late double radius;
@@ -168,7 +169,7 @@ class EasyLoading {
   /// background color of loading, only used for [EasyLoadingStyle.custom].
   Color? backgroundColor;
 
-  /// boxShadow of loading, only used for [EasyLoadingStyle.custom].
+  /// boxShadow of loading.
   List<BoxShadow>? boxShadow;
 
   /// mask color of loading, only used for [EasyLoadingMaskType.custom].
@@ -191,6 +192,9 @@ class EasyLoading {
 
   /// error widget of loading
   Widget? errorWidget;
+
+  /// error widget builder of loading
+  Widget? Function(String? status)? errorWidgetBuilder;
 
   /// info widget of loading
   Widget? infoWidget;
@@ -336,17 +340,23 @@ class EasyLoading {
 
   /// showError [status] [duration] [maskType]
   static Future<void> showError(
-    String status, {
+    String? status, {
     Duration? duration,
     EasyLoadingMaskType? maskType,
     bool? dismissOnTap,
   }) {
-    Widget w = _instance.errorWidget ??
+    Widget w = _instance.errorWidgetBuilder?.call(status) ??
+        _instance.errorWidget ??
         Icon(
           Icons.clear,
           color: EasyLoadingTheme.indicatorColor,
           size: EasyLoadingTheme.indicatorSize,
         );
+
+    if (_instance.errorWidgetBuilder != null) {
+      status = null;
+    }
+
     return _instance._show(
       status: status,
       duration: duration ?? EasyLoadingTheme.displayDuration,
