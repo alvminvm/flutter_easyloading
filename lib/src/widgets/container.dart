@@ -39,6 +39,7 @@ class EasyLoadingContainer extends StatefulWidget {
   final EasyLoadingMaskType? maskType;
   final Completer<void>? completer;
   final bool animation;
+  final AlignmentGeometry? indicatorAlign;
 
   const EasyLoadingContainer({
     Key? key,
@@ -49,6 +50,7 @@ class EasyLoadingContainer extends StatefulWidget {
     this.maskType,
     this.completer,
     this.animation = true,
+    this.indicatorAlign,
   }) : super(key: key);
 
   @override
@@ -75,7 +77,7 @@ class EasyLoadingContainerState extends State<EasyLoadingContainer>
     _status = widget.status;
     _alignment = (widget.indicator == null && widget.status?.isNotEmpty == true)
         ? EasyLoadingTheme.alignment(widget.toastPosition)
-        : EasyLoadingTheme.indicatorAlign;
+        : widget.indicatorAlign ?? EasyLoadingTheme.indicatorAlign;
     _dismissOnTap =
         widget.dismissOnTap ?? (EasyLoadingTheme.dismissOnTap ?? false);
     _ignoring =

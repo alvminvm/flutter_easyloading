@@ -254,12 +254,20 @@ class EasyLoading {
     };
   }
 
+  static Future<void> showLoading({
+    EasyLoadingMaskType? maskType,
+    bool? dismissOnTap,
+  }) {
+     return show(maskType: maskType, dismissOnTap: dismissOnTap);
+  }
+
   /// show loading with [status] [indicator] [maskType]
   static Future<void> show({
     String? status,
     Widget? indicator,
     EasyLoadingMaskType? maskType,
     bool? dismissOnTap,
+    AlignmentGeometry? indicatorAlign,
   }) {
     Widget w = indicator ?? (_instance.indicatorWidget ?? LoadingIndicator());
     return _instance._show(
@@ -267,6 +275,7 @@ class EasyLoading {
       maskType: maskType,
       dismissOnTap: dismissOnTap,
       w: w,
+      indicatorAlign: indicatorAlign
     );
   }
 
@@ -441,6 +450,7 @@ class EasyLoading {
     EasyLoadingMaskType? maskType,
     bool? dismissOnTap,
     EasyLoadingToastPosition? toastPosition,
+    AlignmentGeometry? indicatorAlign,
   }) async {
     assert(
       overlayEntry != null,
@@ -490,6 +500,7 @@ class EasyLoading {
       indicator: w,
       animation: animation,
       toastPosition: toastPosition,
+      indicatorAlign: indicatorAlign,
       maskType: maskType,
       dismissOnTap: dismissOnTap,
       completer: completer,
