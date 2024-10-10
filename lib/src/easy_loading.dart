@@ -25,13 +25,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import './widgets/container.dart';
-import './widgets/progress.dart';
-import './widgets/indicator.dart';
-import './widgets/overlay_entry.dart';
-import './widgets/loading.dart';
 import './animations/animation.dart';
 import './theme.dart';
+import './widgets/container.dart';
+import './widgets/indicator.dart';
+import './widgets/loading.dart';
+import './widgets/overlay_entry.dart';
+import './widgets/progress.dart';
 
 /// loading style
 enum EasyLoadingStyle {
@@ -258,7 +258,7 @@ class EasyLoading {
     EasyLoadingMaskType? maskType,
     bool? dismissOnTap,
   }) {
-     return show(maskType: maskType, dismissOnTap: dismissOnTap);
+     return show(maskType: maskType, dismissOnTap: dismissOnTap, indicatorAlign: Alignment.center);
   }
 
   /// show loading with [status] [indicator] [maskType]
@@ -269,7 +269,7 @@ class EasyLoading {
     bool? dismissOnTap,
     AlignmentGeometry? indicatorAlign,
   }) {
-    Widget w = indicator ?? (_instance.indicatorWidget ?? LoadingIndicator());
+    Widget w = indicator ?? (_instance.indicatorWidget ?? const LoadingIndicator());
     return _instance._show(
       status: status,
       maskType: maskType,
