@@ -138,8 +138,15 @@ class EasyLoadingContainerState extends State<EasyLoadingContainer>
 
   @override
   Widget build(BuildContext context) {
+    final keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 100;
+    var alignment = this._alignment;
+    final alignBottom = alignment == Alignment.bottomCenter || alignment == Alignment.bottomLeft || alignment == Alignment.bottomRight;
+    if (alignBottom && keyboardVisible) {
+      alignment = Alignment.center;
+    }
+
     return Stack(
-      alignment: _alignment,
+      alignment: alignment,
       children: <Widget>[
         AnimatedBuilder(
           animation: _animationController,
@@ -176,7 +183,7 @@ class EasyLoadingContainerState extends State<EasyLoadingContainer>
                 indicator: widget.indicator,
               ),
               _animationController,
-              _alignment,
+              alignment,
             );
           },
         ),
